@@ -5,8 +5,12 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
+ var AMQP = require("./AMQP.js")
+
+
 module.exports = {
    compile: function (req, res) {
+   AMQP.rpc_send("lint_verilog.check_for_errors('batee5.v')", function(msg){console.log("hi from inside %s",msg)})
 
 	},
 

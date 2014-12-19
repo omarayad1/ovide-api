@@ -6,9 +6,9 @@
  */
 
 
-var JSftp = require("jsftp");
+var FTP = require("./FTP.js")
+var JSftp = require("jsftp")
 var fs = require("fs");
-
 
 var ftp = new JSftp({
     host: process.env.FTP_HOST,
@@ -17,56 +17,20 @@ var ftp = new JSftp({
     pass: process.env.FTP_PASSWORD
 });
 
-
-function upload(file){
-  ftp.put(file, 'tmp/'+file, function(err) {
-  if (err)
-    throw err;
-});
-}
-
-function listfiles()
-{
-ftp.ls("/tmp/", function(err, res) {
-  res.forEach(function(file) {
-    console.log(file.name);
-  });
-});
-}
-
-function download(file){
-ftp.get('/tmp/'+file, file, function(hadErr) {
-if (hadErr)
-  console.error('There was an error retrieving the file.');
-else
-  console.log('File copied successfully!');
-  });
-}
-
-function del_file(file){
-  ftp.raw.dele(/tmp/+file, function(err, data) {
-    if (err)
-        throw err;
-
-    console.log(data.text);
-});
-}
-
-
 module.exports = {
 
   // Create Function should do the following:
-  // *1) Create empty files (file + TB)  
+  // *1) Create empty files (file)  
   // *2) Upload empty file to FTP
   // *3) Add empty file to DB
 
   create: function (req, res) {
 
-    fs.createWriteStream(req.params.id);
+    fs.createWriteStream('tmp/'+req.params.id);
     File.create({filename:req.params.id}).exec(function(err, file) {
     res.send(JSON.stringify(req.params.id));
     });
-    upload(req.params.id);
+    FTP.upload(req.params.id);
       
 	},
 
@@ -78,7 +42,8 @@ module.exports = {
     // File.read(req.body).done(function(err, file) {
       // res.send(JSON.stringify(file));
     // });
-    download(req.params.id);
+    FTP.download(req.params.id);
+    res.send()
 	},
 
   // Update function should do the following:
@@ -104,14 +69,21 @@ module.exports = {
         res.send("File deleted");
       }
     })
-      del_file(req.params.id);
+      FTP.del_file(req.params.id);
 	},
 
   // Get_files function should do the following:
   // 1) Query DB for files
 
-  get_files: function (req, res) {
-    
-  },
+get_files: function (req, res) {
+	files = [];
+	ftp.ls("/ovide-static/", function(err, ftpres) {
+		ftpres.forEach(function(file) {
+			files.push(file.name);
+		});
+		res.send(JSON.stringify(files));
+	});
+
+	}
 
 };

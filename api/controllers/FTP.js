@@ -1,3 +1,4 @@
+
 var JSftp = require("jsftp");
 var fs = require("fs");
 
@@ -18,32 +19,33 @@ console.log("Error in Authentication")
 });
 }*/
 
-function upload(file){
-  ftp.put(file, 'tmp/'+file, function(err) {
+// module.exports.ftp = ftp;
+
+module.exports = {
+
+  upload:function(file){
+  ftp.put('tmp/'+file, '/ovide-static/'+file, function(err) {
   if (err)
-  	throw err;
-});
-}
-
-function listfiles()
-{
-ftp.ls("/tmp/", function(err, res) {
-  res.forEach(function(file) {
-    console.log(file.name);
+  	console.log(err);
   });
-});
-}
+  },
 
-function download(file){
-ftp.get('/tmp/'+file, file, function(hadErr) {
-if (hadErr)
-  console.error('There was an error retrieving the file.');
-else
-  console.log('File copied successfully!');
+  download:function(file){
+  ftp.get('/ovide-static/'+file, 'tmp/' +file, function(hadErr) {
+  if (hadErr)
+   console.error('There was an error retrieving the file.');
+  else
+   console.log('File copied successfully!');
+   });
+  },
+
+  del_file:function(file){
+  ftp.raw.dele(/ovide-static/+file, function(err, data) {
+  if (err)
+  throw err;
+  console.log(data.text);
   });
 }
-// upload('README.md');
-// listfiles();
-// download('file2.txt');
 
-fs.createWriteStream("a.txt");
+}
+

@@ -11,10 +11,6 @@ module.exports = {
 
   	filename: {
   		type: 'string'
-  	},
-
-  	filename_tb: {
-  		type: 'string'
   	}
 
   }
