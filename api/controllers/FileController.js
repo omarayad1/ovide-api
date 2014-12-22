@@ -6,56 +6,78 @@
  */
 
 
+// TODO - Create generic file to output JSON function?
+
 var FTP = require("./FTP.js")
 var JSftp = require("jsftp")
 var fs = require("fs");
 
+var ftp = new JSftp({
+    host: process.env.FTP_HOST,
+    user: process.env.FTP_USERNAME,
+    port: 21, 
+    pass: process.env.FTP_PASSWORD
+});
+
 module.exports = {
 
-    // Create Function should do the following:
-    // *1) Create empty files (file)
-    // *2) Upload empty file to FTP
-    // *3) Add empty file to DB
+  // Create Function should do the following:
+  // 1) Create empty file  
+  // 2) Add empty file to DB
+  // 3) Upload empty file to FTP
 
-    create: function (req, res) {
-
+  create: function (req, res) {
         fs.createWriteStream('tmp/' + req.body.filename);
         File.create({filename:req.body.filename}).exec(function(err, file) {
             res.send(JSON.stringify(req.body.filename));
         });
-        FTP.upload(req.body.filename);
+        FTP.upload(req.body.filename);      
     },
 
-    // Read function should do the following:
-    // 1) *Get file from FTP
-    // 3) Read attribs from DB
+  // Read function should do the following:
+  // 1) Get file from FTP
+  // 2) Output file as JSON
 
-    read: function (req, res) {
-        // File.read(req.body).done(function(err, file) {
-          // res.send(JSON.stringify(file));
-        // });
-        FTP.download(req.body.filename, function (){
+read: function (req, res) {
+    // FTP.download(req.params.id);
+    // var file_str = fs.readFileSync('ovide-static/' + req.params.id, "utf8");;
+    //res.send(JSON.stringify(file_str));
+            FTP.download(req.body.filename, function (){
             fs.readFile('./tmp/' + req.body.filename, function(err, data) {
                 if (err) console.log(err)
                 else res.send(data)
             })
         });
-    },
+},
 
-    // Update function should do the following:
-    // 1) Create empty file
-    // 2) Upload empty file to FTP
-    // 3) Store empty file on DB
-    update: function (req, res) {
-        File.read(req.body).done(function(err, file) {
-            res.send(JSON.stringify(file));
-        });
-    },
+  // Update function should do the following:
+  // 1) Get string for file -- TODO
+  // 2) Write string as file
+  // 2) upload file to FTP
+   update: function (req, res) { 
+    // File.read(req.body).done(function(err, file) {
+      // res.send(JSON.stringify(file));
+    // });
 
-    // Delete Function should do the following:
-    // 1) *Destroy file entry on DB
-    // 2) *Delete file + TB from FTP
-    // Should check if file exists on server before attempting delete
+    var file_str = "";
+    fs.writeFile(req.params.id, file_str, function (err) {
+    if (err) return console.log(err);
+    console.log('File written locally');
+    });
+
+    FTP.upload(req.params.id);
+
+  },
+
+  // Should there be a rename function here??
+
+/////////////////////
+
+
+  // Delete Function should do the following:
+  // 1) Destroy file entry on DB 
+  // 2) Delete file from FTP
+  // ADD - Should check if file exists on server before attempting delete
 
     delete: function(req, res) {
         File.destroy(req.body.filename).done(function(err) {
@@ -68,8 +90,8 @@ module.exports = {
         FTP.del_file(req.body.filename);
     },
 
-    // Get_files function should do the following:
-    // 1) Query DB for files
+  // Get_files function should do the following:
+  // 1) Query FTP for files
 
     getFiles: function (req, res) {
         files = [];
@@ -80,5 +102,6 @@ module.exports = {
             res.send(JSON.stringify(files));
         });
     }
+
 
 };
