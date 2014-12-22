@@ -10,13 +10,6 @@ var FTP = require("./FTP.js")
 var JSftp = require("jsftp")
 var fs = require("fs");
 
-var ftp = new JSftp({
-    host: process.env.FTP_HOST,
-    user: process.env.FTP_USERNAME,
-    port: 21, 
-    pass: process.env.FTP_PASSWORD
-});
-
 module.exports = {
 
     // Create Function should do the following:
@@ -26,11 +19,11 @@ module.exports = {
 
     create: function (req, res) {
 
-        fs.createWriteStream('tmp/'+req.params.id);
-        File.create({filename:req.params.id}).exec(function(err, file) {
-            res.send(JSON.stringify(req.params.id));
+        fs.createWriteStream('tmp/' + req.body.filename);
+        File.create({filename:req.body.filename}).exec(function(err, file) {
+            res.send(JSON.stringify(req.body.filename));
         });
-        FTP.upload(req.params.id);
+        FTP.upload(req.body.filename);
     },
 
     // Read function should do the following:
@@ -41,8 +34,12 @@ module.exports = {
         // File.read(req.body).done(function(err, file) {
           // res.send(JSON.stringify(file));
         // });
-        FTP.download(req.params.id);
-        res.send()
+        FTP.download(req.body.filename, function (){
+            fs.readFile('./tmp/' + req.body.filename, function(err, data) {
+                if (err) console.log(err)
+                else res.send(data)
+            })
+        });
     },
 
     // Update function should do the following:
@@ -61,14 +58,14 @@ module.exports = {
     // Should check if file exists on server before attempting delete
 
     delete: function(req, res) {
-        File.destroy(req.params.id).done(function(err) {
+        File.destroy(req.body.filename).done(function(err) {
             if(err) {
                 res.send("Error: " + err);
             } else {
                 res.send("File deleted");
             }
         });
-        FTP.del_file(req.params.id);
+        FTP.del_file(req.body.filename);
     },
 
     // Get_files function should do the following:
@@ -76,7 +73,7 @@ module.exports = {
 
     getFiles: function (req, res) {
         files = [];
-        ftp.ls("/ovide-static/", function(err, ftpres) {
+        ftp.ls("ovide-static/", function(err, ftpres) {
             ftpres.forEach(function(file) {
                 files.push(file.name);
             });
