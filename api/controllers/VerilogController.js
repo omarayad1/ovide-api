@@ -5,21 +5,26 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
- var AMQP = require("./AMQP.js")
+var AMQP = require("./AMQP.js")
 
 
 module.exports = {
-   compile: function (req, res) {
-   AMQP.rpc_send("lint_verilog.check_for_errors('batee5.v')", function(msg){console.log("hi from inside %s",msg)})
-
+    compile: function (req, res) {
+        AMQP.rpc_send("compile_verilog.compile_to_vvp('" + req.body.filename + "','" + req.body.filename_tb + "')", function(response) {
+            res.send(JSON.stringify(response))
+        });
 	},
 
-   check_syntax: function (req, res) {
+    check_syntax: function (req, res) {
+        AMQP.rpc_send("lint_verilog.check_for_errors('" + req.body.filename + "')", function(response) {
+            res.send(JSON.stringify(response))
+        });
+    },
 
-	},
-
-   generate_testbench: function (req, res) {
-
-	}
+    generate_testbench: function (req, res) {
+        AMQP.rpc_send("generate_testbench.generate_testbench('" + req.body.filename + "')", function(response) {
+            res.send(JSON.stringify(response))
+        });
+    }
 };
 

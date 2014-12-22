@@ -8,11 +8,9 @@ var defer = when.defer;
 var uuid = require('node-uuid');
 
 
-
-
 module.exports = {
 
-	rpc_send:function(n,x){
+	rpc_send: function(n,callback){
 		amqp.connect(url).then(function(conn) {
 			return when(conn.createChannel().then(function(ch) {
 				var answer = defer();
@@ -36,11 +34,10 @@ module.exports = {
 					return answer.promise;
 				});
 				return ok.then(function(msg) {
-					x(msg);
+					callback(msg);
 				});
 			})).ensure(function() { conn.close(); });
 		}).then(null, console.warn);
 	}
-
 
 }
