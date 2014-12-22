@@ -41,6 +41,7 @@ module.exports = {
          var tb_str = fs.readFileSync('ovide-static/' + tb_name, "utf8");;
 
          res.send(JSON.stringify(tb_str));
-    }}
+    });
+  }
 };
 
