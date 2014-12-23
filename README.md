@@ -11,11 +11,6 @@ API Server for Ovide, written in Sails.js
 npm install
 ```
 
-## Deploying Server
-```
-sails lift
-```
-
 ##Environment Variables
 Make sure before deploying that the following environment variables have been set:
 
@@ -25,3 +20,14 @@ Make sure before deploying that the following environment variables have been se
 - RABBIT_URL (retrieved from AMQP provider)
 
 
+## Deploying Server
+```
+sails lift
+```
+
+
+
+# Adding Features
+If you'd like to add a new feature, start by adding its module in ovide-core. Once that's done, modify the routing within the controllers as necessary to integrate the new functionality. 
+
+For example, if the new desired feature is Verilog-specific, edit the api/controllers/VerilogController.js and add a function that works with the new module in ovide-core. If this function exposes new features to the web interface, modify in ovide-web accordingly.
