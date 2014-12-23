@@ -37,12 +37,13 @@ module.exports = {
   // Read function should do the following:
   // 1) Get file from FTP
   // 2) Output file as JSON
-
-read: function (req, res) {
+        
+    read: function (req, res) {
     // FTP.download(req.params.id);
     // var file_str = fs.readFileSync('ovide-static/' + req.params.id, "utf8");;
     //res.send(JSON.stringify(file_str));
-            FTP.download(req.body.filename, function (){
+            res.setHeader('Access-Control-Allow-Origin', 'http://localhost:9000');
+	    FTP.download(req.body.filename, function (){
             fs.readFile('./tmp/' + req.body.filename, function(err, data) {
                 if (err) console.log(err)
                 else res.send(data)
