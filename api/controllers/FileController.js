@@ -83,10 +83,10 @@ module.exports = {
             if(err) {
                 res.send("Error: " + err);
             } else {
+                FTP.del_file(req.body.filename);
                 res.send("File deleted");
             }
         });
-        FTP.del_file(req.body.filename);
     },
 
   // Get_files function should do the following:

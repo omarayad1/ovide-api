@@ -28,8 +28,7 @@ module.exports = {
      });
   },
 
-  rename: function(file_old,file_new){
-  
+  rename: function(file_old,file_new){  
     ftp.rename('ovide-static/' + from, 'ovide-static/' + to, function(hadErr) {
     if (hadErr)
      console.log(hadErr);
