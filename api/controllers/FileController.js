@@ -40,8 +40,8 @@ module.exports = {
         
     read: function (req, res) {
       res.setHeader('Access-Control-Allow-Origin', 'http://localhost:9000');
-	    FTP.download(req.body.filename, function (){
-            fs.readFile('./tmp/' + req.body.filename, function(err, data) {
+	    FTP.download(req.params.id, function (){
+            fs.readFile('./tmp/' + req.params.id, function(err, data) {
                 if (err) console.log(err);
                 else {
                   res.send(data);
