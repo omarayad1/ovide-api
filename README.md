@@ -18,6 +18,7 @@ Make sure before deploying that the following environment variables have been se
 - FTP_USERNAME
 - FTP_PASSWORD
 - RABBIT_URL (retrieved from AMQP provider)
+- DATABASE_URL (PostgreSQL Server URL)
 
 
 ## Deploying Server
