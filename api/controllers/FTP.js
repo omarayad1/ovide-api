@@ -28,6 +28,14 @@ module.exports = {
      });
   },
 
+  rename: function(file_old,file_new){
+  
+    ftp.rename('ovide-static/' + from, 'ovide-static/' + to, function(hadErr) {
+    if (hadErr)
+     console.log(hadErr);
+     });
+  },
+
   del_file: function(file){
   ftp.raw.dele('ovide-static/' + file, function(err, data) {
   if (err)

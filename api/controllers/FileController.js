@@ -60,19 +60,17 @@ module.exports = {
       // res.send(JSON.stringify(file));
     // });
 
-    var file_str = "";
-    fs.writeFile(req.params.id, file_str, function (err) {
+    fs.writeFile(req.body.filename, req.body.file_content, function (err) {
     if (err) return console.log(err);
-    console.log('File written locally');
+    console.log('File updated');
     });
-
-    FTP.upload(req.params.id);
+    FTP.upload(req.body.filename);
 
   },
 
-  // Should there be a rename function here??
-
-/////////////////////
+  rename: function(req,res) {
+    FTP.rename(req.body.filename_old,req.body.filename_new);
+  },
 
 
   // Delete Function should do the following:
