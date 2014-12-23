@@ -31,3 +31,7 @@ sails lift
 If you'd like to add a new feature, start by adding its module in ovide-core. Once that's done, modify the routing within the controllers as necessary to integrate the new functionality. 
 
 For example, if the new desired feature is Verilog-specific, edit the api/controllers/VerilogController.js and add a function that works with the new module in ovide-core. If this function exposes new features to the web interface, modify in ovide-web accordingly.
+
+# Roadmap
+- Multi-user support
+- Move from FTP to a more suitable storage solution
