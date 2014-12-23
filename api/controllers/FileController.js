@@ -16,7 +16,7 @@ var ftp = new JSftp({
     host: process.env.FTP_HOST,
     user: process.env.FTP_USERNAME,
     port: 21, 
-    pass: process.env.FTP_PASSWORD
+    pass: decodeURIComponent(process.env.FTP_PASSWORD)
 });
 
 module.exports = {
@@ -39,14 +39,13 @@ module.exports = {
   // 2) Output file as JSON
         
     read: function (req, res) {
-    // FTP.download(req.params.id);
-    // var file_str = fs.readFileSync('ovide-static/' + req.params.id, "utf8");;
-    //res.send(JSON.stringify(file_str));
-            res.setHeader('Access-Control-Allow-Origin', 'http://localhost:9000');
+      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:9000');
 	    FTP.download(req.body.filename, function (){
             fs.readFile('./tmp/' + req.body.filename, function(err, data) {
-                if (err) console.log(err)
-                else res.send(data)
+                if (err) console.log(err);
+                else {
+                  res.send(data);
+                }
             })
         });
 },

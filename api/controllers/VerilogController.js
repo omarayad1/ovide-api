@@ -13,7 +13,7 @@ module.exports = {
 
 // - Return log message from AMQP as JSON directly
    compile: function (req, res) {
-        AMQP.rpc_send("compile_verilog.compile_to_vvp('" + req.body.filename + "','" + req.body.filename_tb + "')", function(response) {
+        AMQP.rpc_send("compile_verilog.compile_to_vvp('" + req.body.filename + "','" + req.body.filename + "_tb')", function(response) {
             res.send(JSON.stringify(response))
         });
 
