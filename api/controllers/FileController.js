@@ -59,8 +59,8 @@ module.exports = {
       // res.send(JSON.stringify(file));
     // });
     console.log(req.body.filename);
-    console.log(req.body.file_content);
-    fs.writeFile('./tmp/' + req.body.filename, req.body.file_content, function (err) {
+    console.log(req.body.filecontent);
+    fs.writeFile('./tmp/' + req.body.filename, req.body.filecontent, function (err) {
       if (err) console.log(err);
       FTP.upload(req.body.filename);
     });
