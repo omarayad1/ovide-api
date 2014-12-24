@@ -32,17 +32,23 @@ module.exports = {
 // - Output as JSON
 
    generate_testbench: function (req, res) {
+
+
         var fn = req.body.filename;
         AMQP.rpc_send("generate_testbench.generate_testbench('" + fn + "')", function(response) {
             res.send(JSON.stringify(response))
         
          var tb_name = fn.slice(0,fn-2) + '_tb.v';
 
-         FTP.download(tb_name);
+        File.create({filename:tb_name}).exec(function(err, file) {
+                res.send(JSON.stringify(tb_name));
+        });
 
-         var tb_str = fs.readFileSync('ovide-static/' + tb_name, "utf8");;
+         // FTP.download(tb_name);
 
-         res.send(JSON.stringify(tb_str));
+         // var tb_str = fs.readFileSync('ovide-static/' + tb_name, "utf8");;
+
+         // res.send(JSON.stringify(tb_str));
     });
   }
 };

@@ -21,7 +21,7 @@ var ftp = new JSftp({
 
 module.exports = {
 
-  // Create Function should do the following:
+  // Create Function does the following:
   // 1) Create empty file  
   // 2) Add empty file to DB
   // 3) Upload empty file to FTP
@@ -34,7 +34,7 @@ module.exports = {
         FTP.upload(req.body.filename);      
     },
 
-  // Read function should do the following:
+  // Read function does the following:
   // 1) Get file from FTP
   // 2) Output file as JSON
         
@@ -51,16 +51,15 @@ module.exports = {
         });
 },
 
-  // Update function should do the following:
-  // 1) Get string for file -- TODO
-  // 2) Write string as file
+  // Update function does the following:
+  // 1) Write string as file
   // 2) upload file to FTP
    update: function (req, res) { 
     // File.read(req.body).done(function(err, file) {
       // res.send(JSON.stringify(file));
     // });
 
-    fs.writeFile(req.body.filename, req.body.file_content, function (err) {
+    fs.writeFile('./tmp/' + req.body.filename, req.body.file_content, function (err) {
     if (err) return console.log(err);
     console.log('File updated');
     });
@@ -73,7 +72,7 @@ module.exports = {
   },
 
 
-  // Delete Function should do the following:
+  // Delete Function does the following:
   // 1) Destroy file entry on DB 
   // 2) Delete file from FTP
   // ADD - Should check if file exists on server before attempting delete
@@ -89,7 +88,7 @@ module.exports = {
         });
     },
 
-  // Get_files function should do the following:
+  // Get_files function does the following:
   // 1) Query FTP for files
 
     getFiles: function (req, res) {
