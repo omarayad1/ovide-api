@@ -4,9 +4,9 @@ API Server for Ovide, written in Sails.js
 
 - Integrates with ovide-core for Verilog processing and ovide-web as its web interface
 
-Currently running on ![A Heroku Dyno](http://ovide-api.herokuapp.com)
+Currently running on [A Heroku Dyno](http://ovide-api.herokuapp.com)
 
-#Building and Running
+# Building and Running
 
 ## Dependencies
 ```
@@ -14,7 +14,7 @@ sudo npm install -g sails
 npm install
 ```
 
-##Environment Variables
+## Environment Variables
 Make sure before deploying that the following environment variables have been set:
 
 - FTP_HOST

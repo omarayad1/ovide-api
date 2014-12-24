@@ -39,8 +39,7 @@ module.exports = {
   // 2) Output file as JSON
         
     read: function (req, res) {
-      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:9000');
-	    console.log(req.params.id);
+    console.log(req.params.id);
       FTP.download(req.params.id, function (){
             fs.readFile('./tmp/' + req.params.id, function(err, data) {
                 if (err) console.log(err);
@@ -58,9 +57,10 @@ module.exports = {
     // File.read(req.body).done(function(err, file) {
       // res.send(JSON.stringify(file));
     // });
-
-    fs.writeFile('./tmp/' + req.body.filename, req.body.file_content, function (err) {
-      if (err) return console.log(err);
+    console.log(req.body.filename);
+    console.log(req.body.filecontent);
+    fs.writeFile('./tmp/' + req.body.filename, req.body.filecontent, function (err) {
+      if (err) console.log(err);
       FTP.upload(req.body.filename);
     });
 
