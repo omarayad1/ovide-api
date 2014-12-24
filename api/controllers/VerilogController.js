@@ -27,6 +27,18 @@ module.exports = {
         });
     },
 
+    get_output: function (req, res) {
+        AMQP.rpc_send("vvp_utils.get_output('" + req.body.filename + "')", function(response) {
+            res.send(JSON.stringify(response))
+        });
+    },
+
+    get_wave: function (req, res) {
+        AMQP.rpc_send("vvp_utils.get_wave('" + req.body.filename + "')", function(response) {
+            res.send(JSON.stringify(response))
+        });
+    },
+
 // - Ask MQ server to generate testbench (which should be uploaded on FTP automatically)
 // - Retrieve file from FTP
 // - Output as JSON
