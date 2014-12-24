@@ -58,7 +58,8 @@ module.exports = {
     // File.read(req.body).done(function(err, file) {
       // res.send(JSON.stringify(file));
     // });
-
+    console.log(req.body.filename);
+    console.log(req.body.file_content);
     fs.writeFile('./tmp/' + req.body.filename, req.body.file_content, function (err) {
       if (err) console.log(err);
       FTP.upload(req.body.filename);
