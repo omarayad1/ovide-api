@@ -60,7 +60,7 @@ module.exports = {
       // res.send(JSON.stringify(file));
     // });
 
-    fs.writeFile(req.body.filename, req.body.file_content, function (err) {
+    fs.writeFile('./tmp/' + req.body.filename, req.body.file_content, function (err) {
     if (err) return console.log(err);
     console.log('File updated');
     });
