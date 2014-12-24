@@ -77,7 +77,7 @@ module.exports = {
   // ADD - Should check if file exists on server before attempting delete
 
     delete: function(req, res) {
-        File.destroy(req.body.filename).done(function(err) {
+        File.destroy({filename:req.body.filename}).exec(function(err) {
             if(err) {
                 res.send("Error: " + err);
             } else {
