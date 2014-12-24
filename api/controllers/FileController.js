@@ -60,7 +60,7 @@ module.exports = {
     // });
 
     fs.writeFile('./tmp/' + req.body.filename, req.body.file_content, function (err) {
-      if (err) return console.log(err);
+      if (err) console.log(err);
       FTP.upload(req.body.filename);
     });
 
