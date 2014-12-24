@@ -14,7 +14,7 @@ module.exports = {
 // - Return log message from AMQP as JSON directly
    compile: function (req, res) {
         var fn = req.body.filename;
-        AMQP.rpc_send("compile_verilog.compile_to_vvp('" + fn + "','" + fn.slice(0,fn-2) + "_tb.v')", function(response) {
+        AMQP.rpc_send("compile_verilog.compile_to_vvp('" + fn + "','" + fn.slice(0,fn.length-2) + "_tb.v')", function(response) {
             res.send(JSON.stringify(response))
         });
 
@@ -50,7 +50,7 @@ module.exports = {
         AMQP.rpc_send("generate_testbench.generate_testbench('" + fn + "')", function(response) {
             res.send(JSON.stringify(response))
         
-         var tb_name = fn.slice(0,fn-2) + '_tb.v';
+         var tb_name = fn.slice(0,fn.length-2) + '_tb.v';
 
         File.create({filename:tb_name}).exec(function(err, file) {
                 res.send(JSON.stringify(tb_name));
