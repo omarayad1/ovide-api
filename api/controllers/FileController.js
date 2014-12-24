@@ -61,10 +61,9 @@ module.exports = {
     // });
 
     fs.writeFile('./tmp/' + req.body.filename, req.body.file_content, function (err) {
-    if (err) return console.log(err);
-    console.log('File updated');
+      if (err) return console.log(err);
+      FTP.upload(req.body.filename);
     });
-    FTP.upload(req.body.filename);
 
   },
 
