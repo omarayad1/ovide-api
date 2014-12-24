@@ -39,8 +39,7 @@ module.exports = {
   // 2) Output file as JSON
         
     read: function (req, res) {
-      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:9000');
-	    console.log(req.params.id);
+    console.log(req.params.id);
       FTP.download(req.params.id, function (){
             fs.readFile('./tmp/' + req.params.id, function(err, data) {
                 if (err) console.log(err);
